@@ -49,11 +49,11 @@ const NewsCard = ({
                         {source.name}
                     </Typography>
                 </div>
-                <Typography className={classes.title} gutterBottom variant="h5" component="h2">
+                <Typography className={classes.title} color="GrayText" gutterBottom variant="h5" component="h2">
                     {title}
                 </Typography>
                 <CardContent>
-                    <Typography variant="body2" component="p">
+                    <Typography variant="body2" color="GrayText" component="p">
                         {description}
                     </Typography>
                 </CardContent>
@@ -62,7 +62,7 @@ const NewsCard = ({
                 <Button size="small" color="primary" href={url}>
                     Learn More
                 </Button>
-                <Typography variant="h5" component="h2">
+                <Typography variant="h5" color="GrayText" component="h2">
                     {i + 1}
                 </Typography>
             </CardActions>

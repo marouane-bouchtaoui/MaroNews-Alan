@@ -1,12 +1,35 @@
 import React, { useEffect, useState } from "react";
 import alanBtn from "@alan-ai/alan-sdk-web";
 import { styled } from "@mui/material/styles";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 import NewsCards from "./components/NewsCards/NewsCards";
 import wordsToNumbers from "words-to-numbers";
 import { Typography } from '@mui/material';
 import { Link } from "@material-ui/core";
+import CssBaseline from "@mui/material/CssBaseline";
+import Button from "@mui/material/Button";
 
 const alanKey = '40a7c38cdcaeb5f7beca64aa80822d2d2e956eca572e1d8b807a3e2338fdd0dc/stage';
+const themeLight = createTheme({
+    palette: {
+        background: {
+            default: "#e4f0e2"
+        }
+    }
+});
+
+const themeDark = createTheme({
+    palette: {
+        background: {
+            default: "#222222"
+        },
+        text: {
+            primary: "#ffffff"
+        }
+    }
+});
+
+
 const LogoContainer = styled("div")(({ theme }) => ({
     padding: "15 0%",
     display: "flex",
@@ -62,18 +85,30 @@ const LogoImg = styled("img")(({ theme }) => ({
 }));
 
 const InfoContainer1 = styled("div")(({ theme }) => ({
-    font: "bold",
-    margin: "0px",
+    display: "flex",
     cursor: "pointer",
     textTransform: "uppercase",
     textDecoration: "underline",
-    color: "black",
+    color: "grey",
+}
+));
+
+const InfoContainer2 = styled("div")(({ theme }) => ({
+
+    display: "flex",
+    justifyContent: "flex-end",
+    cursor: "pointer",
+    textTransform: "uppercase",
+    textDecoration: "underline",
+    color: "lightblue",
+    
 }
 ));
 
 const App = () => {
     const [activeArticle, setActiveArticle] = useState(0);
     const [newsArticles, setNewsArticles] = useState([]);
+    const [light, setLight] = React.useState(true);
 
     useEffect(() => {
         alanBtn({
@@ -104,39 +139,49 @@ const App = () => {
     });
 
     return (
-        <div>
-            <Link href="./App">
-            <InfoContainer1>
-                <h1>MaroNews</h1>
-            </InfoContainer1>
-            </Link>
-            <div>
-                <LogoContainer>
-                    {newsArticles.length ?
-                        <InfoContainer>
-                            <Card>
-                                <Typography variant="h5" component="h2">
-                                    Try saying: <br />
-                                    <br />
-                                    Open article number [4]
-                                </Typography>
-                            </Card>
-                            <Card>
-                                <Typography variant="h5" component="h2">
-                                    Try saying: <br />
-                                    <br />
-                                    Go back
-                                </Typography>
-                            </Card>
-                        </InfoContainer>
-                        : null}
-                    <LogoImg
-                        src="https://miro.medium.com/max/600/1*CJyCnZVdr-EfgC27MAdFUQ.jpeg"
-                        alt="logo"
-                    />
-                </LogoContainer>
-                <NewsCards articles={newsArticles} activeArticle={activeArticle} />
-            </div>
+
+        <div >
+            <ThemeProvider theme={light ? themeLight : themeDark}>
+                <CssBaseline />
+
+                <Link href="./App">
+                    <InfoContainer1>
+                        <h1>MaroNews</h1>
+                    </InfoContainer1>
+                </Link>
+                <div>
+                        <InfoContainer2>
+                    <Button  onClick={() => setLight((prev) => !prev)} >
+                    <Typography variant="h6" color= "lightblue"  >Theme</Typography>
+                    </Button>
+                        </InfoContainer2>
+                    <LogoContainer>
+                        {newsArticles.length ?
+                            <InfoContainer>
+                                <Card>
+                                    <Typography variant="h5" component="h2">
+                                        Try saying: <br />
+                                        <br />
+                                        Open article number [4]
+                                    </Typography>
+                                </Card>
+                                <Card>
+                                    <Typography variant="h5" component="h2">
+                                        Try saying: <br />
+                                        <br />
+                                        Go back
+                                    </Typography>
+                                </Card>
+                            </InfoContainer>
+                            : null}
+                        <LogoImg
+                            src="https://miro.medium.com/max/600/1*CJyCnZVdr-EfgC27MAdFUQ.jpeg"
+                            alt="logo"
+                        />
+                    </LogoContainer>
+                    <NewsCards articles={newsArticles} activeArticle={activeArticle} />
+                </div>
+            </ThemeProvider>
         </div>
     );
 };
